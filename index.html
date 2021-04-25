@@ -82,19 +82,35 @@
         var searchList = document.getElementsByClassName('search_list')[0];
         var hotSearchTags = document.getElementsByClassName('tag');
 
-        render(searchData['線上課程']);
+        var operateDOM_data = {};
+
+        Object.defineProperty(operateDOM_data, 'screen', {
+            get: function() {
+                return screen;
+            },
+            set: function(array) {
+                screen = array;
+                render(array);
+            },
+        });
+
+        // render(searchData['線上課程']);
+        operateDOM_data.screen = searchData['線上課程'];
 
         for (var i = 0; i < hotSearchTags.length; i++) {
             hotSearchTags[i].addEventListener('click', hotSearchTag);
         }
 
         function hotSearchTag() {
-            render(searchData[this.textContent]);
+            // render(searchData[this.textContent]);
+            operateDOM_data.screen = searchData[this.textContent];
             search.value = this.textContent;
         }
 
         function render(arr) {
             var tmpHTML = '';
+
+            if ( !arr ) { arr = []; }
 
             for (var i = 0; i < arr.length; i++) {
                 tmpHTML += `
@@ -110,11 +126,12 @@
         }
 
         search.addEventListener('keyup', function() {
-            if(!searchData[this.value]) { 
-                render([]);
-                return;
-            }
-            render(searchData[this.value]);
+            // if(!searchData[this.value]) { 
+            //     render([]);
+            //     return;
+            // }
+            // render(searchData[this.value]);
+            operateDOM_data.screen = searchData[this.value];
         });
     
     </script>
